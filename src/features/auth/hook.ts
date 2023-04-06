@@ -42,6 +42,7 @@ export const useAuthHook = () => {
     try {
       await auth.signOut();
       dispatch(signOutSlice());
+      localStorage.removeItem("authToken");
     } catch (error) {
       console.error("Error signing out:", error);
     }
