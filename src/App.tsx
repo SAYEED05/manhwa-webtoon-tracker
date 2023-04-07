@@ -11,9 +11,18 @@ import { ProtectedRoute } from "./features/auth/ProtectedRoute";
 function App() {
   const dispatch = useDispatch();
 
+  /* todo 
+- Add Loader from auth slice
+*/
+
   useEffect(() => {
-    auth.onAuthStateChanged((user) => dispatch(setUser(user)));
+    const unSubscribe = auth.onAuthStateChanged(
+      (user) => dispatch(setUser(user)),
+      (err) => console.log(err, "onAuthStateChanged - error")
+    );
+    return () => unSubscribe();
   }, []);
+
   return (
     <BrowserRouter>
       <Routes>

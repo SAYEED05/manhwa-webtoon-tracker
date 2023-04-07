@@ -1,8 +1,19 @@
-import { Button, TextField } from "@mui/material";
-import React from "react";
-import { useForm, Controller } from "react-hook-form";
+import {
+  Button,
+  Grid,
+  styled,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
+import { useForm } from "react-hook-form";
 import ControlledRadioInput from "../../Components/ControlledRadioInput";
 import ControlledTextInput from "../../Components/ControlledTextInput";
+import { useContentUpdateHook } from "../../features/contentUpdate/hook";
+export const GridAllCenter = styled(Grid)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const AddNew = () => {
   const {
@@ -11,72 +22,105 @@ const AddNew = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data: any) => console.log(data, "submit data");
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <ControlledTextInput
-        control={control}
-        name={"name"}
-        label={"Name"}
-        defaultValue=""
-        placeholder="Name"
-      />
-      <ControlledTextInput
-        control={control}
-        name={"desc"}
-        label={"Description"}
-        defaultValue=""
-        placeholder="Description"
-      />
-      <ControlledTextInput
-        control={control}
-        name={"ext_link"}
-        label={"External Link"}
-        defaultValue=""
-        placeholder="External Link"
-      />
-      <ControlledTextInput
-        control={control}
-        name={"img_url"}
-        label={"Image Url"}
-        defaultValue=""
-        placeholder="Image Url"
-      />
-      <ControlledTextInput
-        control={control}
-        name={"chapters_completed"}
-        label={"Chapters Completed"}
-        defaultValue=""
-        placeholder="Chapters Completed"
-        type="number"
-      />
-      <ControlledTextInput
-        control={control}
-        name={"total_chapters"}
-        label={"Total Chapters"}
-        defaultValue=""
-        placeholder="Total Chapters"
-        type="number"
-      />
-      <ControlledRadioInput
-        control={control}
-        name={"is_finished"}
-        label={"Is Finished"}
-        defaultValue="yes"
-        fields={[
-          {
-            label: "Yes",
-            value: "yes",
-          },
-          {
-            label: "No",
-            value: "false",
-          },
-        ]}
-      />
+  const { addNewContentToDB, isLoading } = useContentUpdateHook();
 
-      <Button type="submit">submit</Button>
-    </form>
+  const onSubmit = async (data: any) => {
+    addNewContentToDB(data);
+  };
+  return (
+    <Grid container justifyContent="center" alignItems="center">
+      <Grid
+        item
+        container
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        justifyContent="center"
+        rowSpacing={2}
+        width={{ xs: "90%", sm: "75%", md: "50%" }}
+      >
+        <Grid item xs={12}>
+          <Typography variant="h4">Add New Item</Typography>
+        </Grid>
+        <GridAllCenter item xs={12}>
+          <ControlledTextInput
+            control={control}
+            name={"name"}
+            label={"Name"}
+            defaultValue=""
+            placeholder="Name"
+          />
+        </GridAllCenter>
+        <GridAllCenter item xs={12}>
+          <ControlledTextInput
+            control={control}
+            name={"desc"}
+            label={"Description"}
+            defaultValue=""
+            placeholder="Description"
+          />
+        </GridAllCenter>
+        <GridAllCenter item xs={12}>
+          <ControlledTextInput
+            control={control}
+            name={"site_you_read_at"}
+            label={"Link To The Site You Read At"}
+            defaultValue=""
+            placeholder="Site You Read At"
+          />
+        </GridAllCenter>
+        <GridAllCenter item xs={12}>
+          <ControlledTextInput
+            control={control}
+            name={"img_url"}
+            label={"Image Url"}
+            defaultValue=""
+            placeholder="Image Url"
+          />
+        </GridAllCenter>
+        <GridAllCenter item xs={12}>
+          <ControlledTextInput
+            control={control}
+            name={"chapters_completed"}
+            label={"Chapters Completed"}
+            defaultValue=""
+            placeholder="Chapters Completed"
+            type="number"
+          />
+        </GridAllCenter>
+        <GridAllCenter item xs={12}>
+          <ControlledTextInput
+            control={control}
+            name={"total_chapters"}
+            label={"Total Chapters"}
+            defaultValue=""
+            placeholder="Total Chapters"
+            type="number"
+          />
+        </GridAllCenter>
+        <Grid item xs={12}>
+          <ControlledRadioInput
+            control={control}
+            name={"is_finished"}
+            label={"Finished Publishing?"}
+            defaultValue="yes"
+            fields={[
+              {
+                label: "Yes",
+                value: "yes",
+              },
+              {
+                label: "No",
+                value: "false",
+              },
+            ]}
+          />
+        </Grid>
+
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? <CircularProgress /> : "submit"}
+        </Button>
+      </Grid>
+    </Grid>
   );
 };
 

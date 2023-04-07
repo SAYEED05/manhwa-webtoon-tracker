@@ -1,4 +1,10 @@
-import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
+import {
+  RadioGroup,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+} from "@mui/material";
 import React from "react";
 
 import { Controller } from "react-hook-form";
@@ -22,15 +28,18 @@ const ControlledRadioInput = ({
       control={control}
       defaultValue={defaultValue}
       render={({ field }) => (
-        <RadioGroup {...field} aria-label={label}>
-          {fields.map((item) => (
-            <FormControlLabel
-              value={item.value}
-              control={<Radio />}
-              label={item.label}
-            />
-          ))}
-        </RadioGroup>
+        <FormControl>
+          <FormLabel>{label}</FormLabel>
+          <RadioGroup {...field} aria-label={label} row>
+            {fields.map((item) => (
+              <FormControlLabel
+                value={item.value}
+                control={<Radio />}
+                label={item.label}
+              />
+            ))}
+          </RadioGroup>
+        </FormControl>
       )}
     />
   );

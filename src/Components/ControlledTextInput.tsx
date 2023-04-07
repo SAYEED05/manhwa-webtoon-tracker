@@ -30,6 +30,7 @@ const ControlledTextInput = ({
           label={label}
           variant="outlined"
           placeholder={placeholder}
+          fullWidth
         />
       )}
     />
