@@ -4,7 +4,7 @@ export const scrapeMangaDetails = async (url_to_scrape: string) => {
     const response = await axios.post(
       `https://manhwa-webtoon-tracker-backend.onrender.com/scrape`,
       {
-        url_to_scrape: "https://mangatx.com/manga/mercenary-enrollment/",
+        url_to_scrape,
       }
     );
     return response?.data;

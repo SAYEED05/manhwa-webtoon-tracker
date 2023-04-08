@@ -16,8 +16,12 @@ const GetDataFromUrl = () => {
     formState: { errors },
   } = useForm();
 
-  const { addNewContentToDB, scrapeMangaDetailsFromUrl, isScrapping } =
-    useContentUpdateHook();
+  const {
+    addNewContentToDB,
+    scrapeMangaDetailsFromUrl,
+    isScrapping,
+    isLoading,
+  } = useContentUpdateHook();
   const onSubmit = async (data: any) => {
     scrapeMangaDetailsFromUrl(data.url_to_scrape, {
       onSuccess: (res) => {
@@ -47,7 +51,11 @@ const GetDataFromUrl = () => {
             defaultValue=""
             placeholder="Url to get data"
           />
-          <Button variant="contained" type="submit" disabled={isScrapping}>
+          <Button
+            variant="contained"
+            type="submit"
+            disabled={isScrapping || isLoading}
+          >
             {isScrapping ? <CircularProgress /> : "Add"}
           </Button>
         </Grid>
