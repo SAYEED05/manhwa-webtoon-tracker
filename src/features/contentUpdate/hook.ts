@@ -3,6 +3,8 @@ import { auth, googleAuthProvider, db } from "../firebase/index";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoadingState, setErrorMessage } from "./slice";
 import { selectErrorMessage, selectLoadingState } from "./selectors";
+import { useMutation } from "react-query";
+import { scrapeMangaDetails } from "./api";
 
 export const useContentUpdateHook = () => {
   const dispatch = useDispatch();
@@ -24,10 +26,27 @@ export const useContentUpdateHook = () => {
       });
   };
 
+  const {
+    mutate: scrapeMangaDetailsFromUrl,
+    isLoading: isScrapping,
+    isError: scrappingError,
+    isSuccess: scrappingSuccess,
+    data: scrapedData,
+  } = useMutation(scrapeMangaDetails);
+
   const isLoading = useSelector(selectLoadingState) === "loading";
   const isSuccess = useSelector(selectLoadingState) === "success";
   const isError = useSelector(selectLoadingState) === "error";
   const ErrorMessage = useSelector(selectErrorMessage);
 
-  return { addNewContentToDB, isLoading, isSuccess, isError, ErrorMessage };
+  return {
+    addNewContentToDB,
+    isLoading,
+    isSuccess,
+    isError,
+    ErrorMessage,
+    scrapeMangaDetailsFromUrl,
+    isScrapping,
+    scrapedData,
+  };
 };
