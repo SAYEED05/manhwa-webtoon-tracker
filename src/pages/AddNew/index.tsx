@@ -124,7 +124,7 @@ const AddNew = () => {
             type="submit"
             disabled={isLoading || isScrapping}
           >
-            {isLoading || isScrapping ? <CircularProgress /> : "submit"}
+            {isLoading ? <CircularProgress /> : "submit"}
           </Button>
         </Grid>
       </Grid>
