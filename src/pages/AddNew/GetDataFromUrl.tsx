@@ -20,7 +20,7 @@ const GetDataFromUrl = () => {
     addNewContentToDB,
     scrapeMangaDetailsFromUrl,
     isScrapping,
-    isLoading,
+    isUpdating,
   } = useContentUpdateHook();
   const onSubmit = async (data: any) => {
     scrapeMangaDetailsFromUrl(data.url_to_scrape, {
@@ -54,7 +54,7 @@ const GetDataFromUrl = () => {
           <Button
             variant="contained"
             type="submit"
-            disabled={isScrapping || isLoading}
+            disabled={isScrapping || isUpdating}
           >
             {isScrapping ? <CircularProgress /> : "Add"}
           </Button>
