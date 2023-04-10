@@ -1,8 +1,17 @@
 import { query, getDocs, collection, where, addDoc } from "firebase/firestore";
 import { auth, googleAuthProvider, db } from "../firebase/index";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsUpdatingState, setErrorMessage } from "./slice";
-import { selectErrorMessage, selectLoadingState } from "./selectors";
+import {
+  setIsUpdatingState,
+  setErrorMessage,
+  setIsFetchingSearchResult,
+  updateSearchResults,
+} from "./slice";
+import {
+  selectErrorMessage,
+  selectLoadingState,
+  selectSearchResults,
+} from "./selectors";
 import { useMutation } from "react-query";
 import { scrapeMangaDetails } from "./api";
 
@@ -27,6 +36,7 @@ export const useContentUpdateHook = () => {
   };
 
   const searchContent = async (query_string: string) => {
+    dispatch(setIsFetchingSearchResult("loading"));
     const results: any = [];
 
     const q = query(
@@ -40,8 +50,9 @@ export const useContentUpdateHook = () => {
     querySnapshot.forEach((doc) => {
       results.push({ id: doc.id, ...doc.data() });
     });
-
-    return results;
+    dispatch(updateSearchResults(results));
+    dispatch(setIsFetchingSearchResult("success"));
+    return;
   };
 
   const {
@@ -53,6 +64,7 @@ export const useContentUpdateHook = () => {
   } = useMutation(scrapeMangaDetails);
 
   const isUpdating = useSelector(selectLoadingState).isUpdating === "loading";
+  const searchResults = useSelector(selectSearchResults);
   const isUpdatingSuccess =
     useSelector(selectLoadingState).isUpdating === "success";
   const isUpdatingError =
@@ -79,5 +91,6 @@ export const useContentUpdateHook = () => {
     isFetchingSearchResult,
     isFetchingSearchResultSuccess,
     isFetchingSearchResultError,
+    searchResults,
   };
 };

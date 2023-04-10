@@ -23,7 +23,7 @@ const AddNew = () => {
     formState: { errors },
   } = useForm();
 
-  const { addNewContentToDB, isLoading, isScrapping } = useContentUpdateHook();
+  const { addNewContentToDB, isUpdating, isScrapping } = useContentUpdateHook();
 
   const onSubmit = async (data: any) => {
     addNewContentToDB(data);
@@ -122,9 +122,9 @@ const AddNew = () => {
           <Button
             variant="contained"
             type="submit"
-            disabled={isLoading || isScrapping}
+            disabled={isUpdating || isScrapping}
           >
-            {isLoading ? <CircularProgress /> : "submit"}
+            {isUpdating ? <CircularProgress /> : "submit"}
           </Button>
         </Grid>
       </Grid>

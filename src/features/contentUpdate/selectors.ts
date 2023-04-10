@@ -12,3 +12,8 @@ export const selectErrorMessage = createSelector(
   [selectSlice],
   (state) => state.errorMessage
 );
+
+export const selectSearchResults = createSelector(
+  [selectSlice],
+  (state) => state.currentSearchResult
+);

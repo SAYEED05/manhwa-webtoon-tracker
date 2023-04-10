@@ -18,13 +18,23 @@ export const conentUpdateSlice = createSlice({
     setIsUpdatingState: (state, action: PayloadAction<StateTypes>) => {
       state.loadingState.isUpdating = action.payload;
     },
+    setIsFetchingSearchResult: (state, action: PayloadAction<StateTypes>) => {
+      state.loadingState.isFetchingSearchResult = action.payload;
+    },
     setErrorMessage: (state, action: PayloadAction<null | string>) => {
       state.errorMessage = action.payload;
+    },
+    updateSearchResults: (state, action) => {
+      state.currentSearchResult = action.payload;
     },
   },
 });
 
-export const { setIsUpdatingState, setErrorMessage } =
-  conentUpdateSlice.actions;
+export const {
+  setIsUpdatingState,
+  setErrorMessage,
+  updateSearchResults,
+  setIsFetchingSearchResult,
+} = conentUpdateSlice.actions;
 
 export default conentUpdateSlice.reducer;
