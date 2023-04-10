@@ -26,6 +26,24 @@ export const useContentUpdateHook = () => {
       });
   };
 
+  const searchContent = async (query_string: string) => {
+    const results: any = [];
+
+    const q = query(
+      collection(db, "content"),
+      where("name", ">=", query_string),
+      where("name", "<=", query_string + "\uf8ff")
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      results.push({ id: doc.id, ...doc.data() });
+    });
+
+    return results;
+  };
+
   const {
     mutate: scrapeMangaDetailsFromUrl,
     isLoading: isScrapping,
@@ -48,5 +66,6 @@ export const useContentUpdateHook = () => {
     scrapeMangaDetailsFromUrl,
     isScrapping,
     scrapedData,
+    searchContent,
   };
 };
