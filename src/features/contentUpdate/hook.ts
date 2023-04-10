@@ -1,7 +1,7 @@
 import { query, getDocs, collection, where, addDoc } from "firebase/firestore";
 import { auth, googleAuthProvider, db } from "../firebase/index";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoadingState, setErrorMessage } from "./slice";
+import { setIsUpdatingState, setErrorMessage } from "./slice";
 import { selectErrorMessage, selectLoadingState } from "./selectors";
 import { useMutation } from "react-query";
 import { scrapeMangaDetails } from "./api";
@@ -11,13 +11,13 @@ export const useContentUpdateHook = () => {
 
   const addNewContentToDB = async (payload: any) => {
     dispatch(setErrorMessage(null));
-    dispatch(setLoadingState("loading"));
+    dispatch(setIsUpdatingState("loading"));
     await addDoc(collection(db, "content"), {
       ...payload,
     })
       .then(() => {
         console.log("success");
-        dispatch(setLoadingState("success"));
+        dispatch(setIsUpdatingState("success"));
         dispatch(setErrorMessage(null));
       })
       .catch((err: any) => {
@@ -52,20 +52,32 @@ export const useContentUpdateHook = () => {
     data: scrapedData,
   } = useMutation(scrapeMangaDetails);
 
-  const isLoading = useSelector(selectLoadingState) === "loading";
-  const isSuccess = useSelector(selectLoadingState) === "success";
-  const isError = useSelector(selectLoadingState) === "error";
+  const isUpdating = useSelector(selectLoadingState).isUpdating === "loading";
+  const isUpdatingSuccess =
+    useSelector(selectLoadingState).isUpdating === "success";
+  const isUpdatingError =
+    useSelector(selectLoadingState).isUpdating === "error";
   const ErrorMessage = useSelector(selectErrorMessage);
+
+  const isFetchingSearchResult =
+    useSelector(selectLoadingState).isFetchingSearchResult === "loading";
+  const isFetchingSearchResultSuccess =
+    useSelector(selectLoadingState).isFetchingSearchResult === "success";
+  const isFetchingSearchResultError =
+    useSelector(selectLoadingState).isFetchingSearchResult === "error";
 
   return {
     addNewContentToDB,
-    isLoading,
-    isSuccess,
-    isError,
+    isUpdating,
+    isUpdatingSuccess,
+    isUpdatingError,
     ErrorMessage,
     scrapeMangaDetailsFromUrl,
     isScrapping,
     scrapedData,
     searchContent,
+    isFetchingSearchResult,
+    isFetchingSearchResultSuccess,
+    isFetchingSearchResultError,
   };
 };
