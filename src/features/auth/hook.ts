@@ -10,8 +10,13 @@ import {
   signOut as signOutSlice,
 } from "./slice";
 import { selectUser, selectLoading, selectError } from "./selectors";
+
 export const useAuthHook = () => {
   const dispatch = useDispatch();
+
+  const setAuthLoading = (state: boolean) => {
+    return dispatch(setLoading(state));
+  };
 
   const signInWithGoogle = async () => {
     dispatch(setLoading(true));
@@ -58,5 +63,6 @@ export const useAuthHook = () => {
     loading,
     error,
     signOut,
+    setAuthLoading,
   };
 };

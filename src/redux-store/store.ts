@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authSlice } from "../features/auth/slice";
 import { conentUpdateSlice } from "../features/contentUpdate/slice";
+import { overallUiControlSlice } from "../features/overallUIControls//slice";
 
 export const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
     contentUpdate: conentUpdateSlice.reducer,
+    overallUiControl: overallUiControlSlice.reducer,
   },
 });
 

@@ -14,9 +14,11 @@ import {
 } from "./selectors";
 import { useMutation } from "react-query";
 import { scrapeMangaDetails } from "./api";
+import { useOverallUiControlHook } from "../overallUIControls/hook";
 
 export const useContentUpdateHook = () => {
   const dispatch = useDispatch();
+  const { setSnackBarState } = useOverallUiControlHook();
 
   const addNewContentToDB = async (payload: any) => {
     dispatch(setErrorMessage(null));
@@ -28,10 +30,26 @@ export const useContentUpdateHook = () => {
         console.log("success");
         dispatch(setIsUpdatingState("success"));
         dispatch(setErrorMessage(null));
+        setSnackBarState({
+          open: true,
+          message: "Added Successfully",
+          type: "success",
+          meta: {
+            source: "useContentUpdateHook/addNewContentToDB",
+          },
+        });
       })
       .catch((err: any) => {
         console.log("error");
         dispatch(setErrorMessage(err?.message));
+        setSnackBarState({
+          open: true,
+          message: "Failed",
+          type: "error",
+          meta: {
+            source: "useContentUpdateHook/addNewContentToDB",
+          },
+        });
       });
   };
 
@@ -41,8 +59,8 @@ export const useContentUpdateHook = () => {
 
     const q = query(
       collection(db, "content"),
-      where("name", ">=", query_string),
-      where("name", "<=", query_string + "\uf8ff")
+      where("title", ">=", query_string),
+      where("title", "<=", query_string + "\uf8ff")
     );
 
     const querySnapshot = await getDocs(q);

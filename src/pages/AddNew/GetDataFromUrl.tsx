@@ -25,7 +25,7 @@ const GetDataFromUrl = () => {
   const onSubmit = async (data: any) => {
     scrapeMangaDetailsFromUrl(data.url_to_scrape, {
       onSuccess: (res) => {
-        // addNewContentToDB(res);
+        addNewContentToDB(res);
       },
     });
   };
@@ -55,6 +55,7 @@ const GetDataFromUrl = () => {
             variant="contained"
             type="submit"
             disabled={isScrapping || isUpdating}
+            sx={{ ml: 1 }}
           >
             {isScrapping ? <CircularProgress /> : "Add"}
           </Button>

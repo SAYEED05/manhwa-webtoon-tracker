@@ -4,6 +4,7 @@ import {
   styled,
   Typography,
   CircularProgress,
+  Divider,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import ControlledRadioInput from "../../Components/ControlledRadioInput";
@@ -31,6 +32,9 @@ const AddNew = () => {
   return (
     <>
       <GetDataFromUrl />
+
+      <Divider sx={{ py: 2 }}>OR</Divider>
+
       <Grid container justifyContent="center" alignItems="center">
         <Grid
           item
