@@ -71,7 +71,7 @@ const Discover = () => {
           <Grid item container xs={10} p={{ xs: 2, md: 4 }}>
             {searchResults?.map((item: any) => (
               <Grid item xs={12} sm={6} md={4} lg={3}>
-                {item?.name}
+                {item?.title}
               </Grid>
             ))}
           </Grid>
